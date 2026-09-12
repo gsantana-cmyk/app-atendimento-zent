@@ -3,14 +3,22 @@
   "name": "Atendimento TOTVS",
   "short_name": "Chat",
   "start_url": "/",
-  "display": "fullscreen",
-  "display_override": ["fullscreen", "standalone"],
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#005a50",
   "icons": [
     {
       "src": "icon.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
