@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta tag essencial para que o layout se adapte bem em celulares -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Configurações para forçar tela cheia no iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Vincula o arquivo de configuração PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <title>Aplicativo de Atendimento</title>
+    
+    <style>
+        /* Zera as margens do navegador e faz o fundo ocupar a tela toda */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Evita que a página role por fora do chat */
+            background-color: #ffffff;
+        }
+
+        /* Contêiner onde o chat será injetado. Ele ocupará 100% do espaço disponível */
+        #app-chat-container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <!-- 1. Desativa o carregamento automático flutuante padrão do Zendesk -->
+    <script>
+        window.zEMessenger = { autorender: false };
+    </script>
+</head>
+<body>
+    
+    <!-- 2. Área onde o widget será embutido em tela cheia -->
+    <div id="app-chat-container"></div>
+
+    <!-- 3. Seu script original do Zendesk -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=362d9aa2-a80d-4436-a486-0d874355c805"> </script>
+
+    <!-- 4. Renderiza o widget manualmente no modo embedded -->
+    <script>
+        // Aguarda a inicialização do Zendesk para executar o comando
+        window.addEventListener('load', function() {
+            zE('messenger', 'render', { 
+                mode: 'embedded', 
+                widget: { 
+                    targetElement: '#app-chat-container' 
+                } 
+            });
+        });
+    </script>
+
+</body>
+</html>
