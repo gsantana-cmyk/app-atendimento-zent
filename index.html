@@ -35,12 +35,12 @@
             padding-bottom: 5px;
         }
 
-        /* Oculta o rodapé 'Built with Zendesk' */
-    #app-chat-container iframe,
-    [data-testid="brand-footer"],
-    .sc-brand-footer {
-        display: none !important;
-    }
+        /* Esconde a marca d'água em fallbacks externos */
+        [data-testid="brand-footer"],
+        footer[class*="Brand"],
+        div[class*="BrandFooter"] {
+            display: none !important;
+        }
     </style>
 
     <script>
@@ -52,17 +52,32 @@
 </head>
 <body>
     
+    <!-- Área onde o widget é embutido -->
     <div id="app-chat-container"></div>
 
+    <!-- Script do Zendesk -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=362d9aa2-a80d-4436-a486-0d874355c805"></script>
 
     <script>
         window.addEventListener('load', function() {
+            // Renderiza o widget no container
             zE('messenger', 'render', { 
                 mode: 'embedded', 
                 widget: { 
                     targetElement: '#app-chat-container' 
                 } 
+            });
+
+            // Injeta regra dentro do Shadow DOM do Zendesk para remover a marca d'água
+            zE('messenger:on', 'open', function() {
+                setTimeout(function() {
+                    const host = document.querySelector('#app-chat-container iframe');
+                    if (host && host.contentDocument) {
+                        const style = document.createElement('style');
+                        style.innerHTML = '[data-testid="brand-footer"], footer, .sc-brand-footer { display: none !important; }';
+                        host.contentDocument.head.appendChild(style);
+                    }
+                }, 500);
             });
         });
     </script>
